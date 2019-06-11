@@ -1,0 +1,12 @@
+node_modules
+bin
+package-lock.json
+.DS_Store
+.nyc_output/
+coverage/
+dist/
+log/
+.env
+.idea/
+npm-debug.log
+.vscode/
