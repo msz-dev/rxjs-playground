@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 const { Observable } = require('rxjs');
+const { of } = require('rxjs');
+
 
 function getEntries(environment) {
     return new Observable((subscriber) => {
@@ -24,3 +26,4 @@ function syncToS3(entries) {
 }
 
 getEntries('dev').subscribe(syncToS3);
+

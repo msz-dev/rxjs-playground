@@ -1,5 +1,5 @@
 const { Observable } = require('rxjs');
-const { map, tap} = require('rxjs/operators');
+const { map, tap, retry, delay} = require('rxjs/operators');
 const fetch = require('node-fetch');
 
 // Creation
@@ -11,7 +11,8 @@ function request(observer) {
   .then(res => res.text())
   .then(body => {
     console.log('Got a response body!');
-    observer.next(body);
+    // throw new Error('Zica');
+    observer.error(new Error('Zica braba!!!'));
   }).catch(error => {
     console.log(error);
     throw error;
@@ -50,11 +51,16 @@ const piped = observable$.pipe(
       map(e => e)
 );
 
-request$.subscribe(nextFunc, errorFunc, completeFunc);
+// request$.subscribe(nextFunc, errorFunc, completeFunc);
 // piped.subscribe(nextFunc, errorFunc, completeFunc);
 // piped.subscribe(anotherNextFunc, errorFunc, completeFunc);
 
+// With retry logic
+// const requestWithRetry = request$.pipe(retry(3));
 
+
+const retriable$ = request$.pipe(delay(5000), retry(3));
+retriable$.subscribe(nextFunc, errorFunc, completeFunc);
 // fetch('http://www.google.com')
 //   .then(res => res.text())
 //   .then(body => console.log(body));
